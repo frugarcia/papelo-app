@@ -1,10 +1,11 @@
 // Dependencies
-import {Box, Button, Divider, HStack, Text, VStack} from "@chakra-ui/react";
-import {useContext} from "react";
+import { Box, Button, Divider, HStack, Text, VStack } from "@chakra-ui/react";
+import { useContext } from "react";
 import GameContext from "../context/GameContext";
 
 function ConfigGame() {
-  const {handleConfirmGameData, handleUpdateGameData} = useContext(GameContext);
+  const { handleConfirmGameData, handleUpdateGameData } =
+    useContext(GameContext);
 
   return (
     <Box width="100%" borderColor="gray.400" borderWidth={0.5} py={5} px={5}>

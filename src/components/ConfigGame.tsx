@@ -1,6 +1,6 @@
 // Dependencies
-import {useContext, useMemo} from "react";
-import {useForm} from "react-hook-form";
+import { useContext, useMemo } from "react";
+import { useForm } from "react-hook-form";
 import {
   Box,
   Text,
@@ -12,7 +12,7 @@ import {
   AlertIcon,
 } from "@chakra-ui/react";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import PlayersFormControl from "./PlayersFormControl";
 import SwitchForm from "./SwitchForm";
 import GameContext from "../context/GameContext";
@@ -27,7 +27,7 @@ const schema = yup.object().shape({
 });
 
 function ConfigGame() {
-  const {handleSaveGameData, gameData} = useContext(GameContext);
+  const { handleSaveGameData, gameData } = useContext(GameContext);
 
   const defaultValues = useMemo(() => {
     return {
@@ -35,7 +35,7 @@ function ConfigGame() {
       pineapple: gameData?.pineapple ?? false,
       lifeless: gameData?.lifeless ?? true,
       auction: gameData?.auction ?? true,
-      double_gold: gameData?.double_gold ?? true,
+      double_gold: gameData?.double_gold ?? false,
     };
   }, [gameData]);
 
