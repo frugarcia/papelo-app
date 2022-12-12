@@ -1,6 +1,6 @@
 // Dependencies
-import {Button, HStack, VStack, Container} from "@chakra-ui/react";
-import {useContext} from "react";
+import { Button, HStack, VStack, Container } from "@chakra-ui/react";
+import { useContext } from "react";
 import ConfigGame from "./components/ConfigGame";
 import ConfirmGame from "./components/ConfirmGame";
 import InfoTable from "./components/InfoTable";
@@ -13,12 +13,12 @@ const data = [
   [
     "Nº",
     "P",
-    {label: "F", colSpan: 2, position: 1},
-    {label: "P", colSpan: 2, position: 2},
-    {label: "PO", colSpan: 2, position: 3},
-    {label: "X", colSpan: 2, position: 4},
-    {label: "B", colSpan: 2, position: 5},
-    {label: "B", colSpan: 2, position: 6},
+    { label: "F", colSpan: 2, position: 1 },
+    { label: "P", colSpan: 2, position: 2 },
+    { label: "PO", colSpan: 2, position: 3 },
+    { label: "X", colSpan: 2, position: 4 },
+    { label: "B", colSpan: 2, position: 5 },
+    { label: "B", colSpan: 2, position: 6 },
   ],
   [
     [
