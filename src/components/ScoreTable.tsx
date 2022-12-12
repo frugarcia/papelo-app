@@ -25,6 +25,7 @@ function ScoreTable({data}: any) {
                   fontWeight="bold"
                   textColor="black"
                   py={4}
+                  padding={1}
                 >
                   {label}
                 </Th>
@@ -42,13 +43,17 @@ function ScoreTable({data}: any) {
                     const isChanged = item[3];
                     return (
                       <Fragment key={`detail_${index}`}>
-                        <TableCell color={isRight ? "green.500" : "red.500"}>
+                        <TableCell
+                          color={isRight ? "green.500" : "red.500"}
+                          padding={1}
+                          fontSize="xs"
+                        >
                           {item[0]}
                         </TableCell>
                         <TableCell
-                          padding={0}
-                          width="30px"
-                          fontSize="sm"
+                          padding={1}
+                          width="20px"
+                          fontSize="10"
                           key={`detail_${index}`}
                           backgroundColor={isChanged ? "blue.50" : undefined}
                         >
@@ -61,6 +66,8 @@ function ScoreTable({data}: any) {
                     <TableCell
                       backgroundColor="blackAlpha.50"
                       key={`detail_${index}`}
+                      padding={1}
+                      fontSize="xs"
                     >
                       {item}
                     </TableCell>
