@@ -39,7 +39,7 @@ function ConfigGame() {
           Confirmar partida
         </Button>
         <Button onClick={handleUpdateGameData} size="sm" colorScheme="orange">
-          Modificar partida
+          Modificar configuración
         </Button>
       </HStack>
     </Box>
