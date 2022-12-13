@@ -4,6 +4,7 @@ import { useContext } from "react";
 import ConfigGame from "./components/ConfigGame";
 import ConfirmGame from "./components/ConfirmGame";
 import InfoTable from "./components/InfoTable";
+import Layout from "./components/Layout";
 import ScoreTable from "./components/ScoreTable";
 import GameContext from "./context/GameContext";
 
@@ -53,26 +54,28 @@ function App() {
     handleNewGame,
   } = useContext(GameContext);
   return (
-    <Container maxW="container.xxl">
-      <VStack spacing={3} my={5}>
-        <HStack width="100%" justifyContent="space-between">
-          {!creatingGame || !confirmingGame || !startGame ? (
-            <Button size="sm" onClick={handleNewGame}>
-              Nueva partida
-            </Button>
-          ) : null}
-          {startGame ? (
-            <Button size="sm" onClick={handleCancelGame}>
-              Cancelar partida
-            </Button>
-          ) : null}
-        </HStack>
-        {creatingGame ? <ConfigGame /> : null}
-        {confirmingGame ? <ConfirmGame /> : null}
-      </VStack>
-      <InfoTable data={data} />
-      <ScoreTable data={data} />
-    </Container>
+    <Layout>
+      <Container maxW="container.xxl">
+        <VStack spacing={3} my={5}>
+          <HStack width="100%" justifyContent="space-between">
+            {!creatingGame && !confirmingGame && !startGame ? (
+              <Button size="sm" onClick={handleNewGame}>
+                Nueva partida
+              </Button>
+            ) : null}
+            {creatingGame || confirmingGame || startGame ? (
+              <Button size="sm" onClick={handleCancelGame}>
+                Cancelar partida
+              </Button>
+            ) : null}
+          </HStack>
+          {creatingGame ? <ConfigGame /> : null}
+          {confirmingGame ? <ConfirmGame /> : null}
+        </VStack>
+        <InfoTable data={data} />
+        <ScoreTable data={data} />
+      </Container>
+    </Layout>
   );
 }
 

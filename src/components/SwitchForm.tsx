@@ -1,8 +1,8 @@
 // Dependencies
-import {Controller} from "react-hook-form";
-import {FormControl, FormLabel, Switch} from "@chakra-ui/react";
+import { Controller } from "react-hook-form";
+import { FormControl, FormLabel, Switch } from "@chakra-ui/react";
 
-function SwitchForm({control, name, label}: any) {
+function SwitchForm({ control, name, label }: any) {
   return (
     <FormControl>
       <FormLabel htmlFor={name} fontSize="sm">
@@ -11,7 +11,7 @@ function SwitchForm({control, name, label}: any) {
       <Controller
         name={name}
         control={control}
-        render={({field}) => {
+        render={({ field }) => {
           return (
             <Switch
               size="lg"
