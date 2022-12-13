@@ -1,66 +1,72 @@
 // Dependencies
+import {useDisclosure} from "@chakra-ui/react";
 import React, {useState} from "react";
+import AlertDialog from "../components/AlertDialog";
 
 type AuthContextValueType = {
-  handleSaveGameData: (values: any) => void;
-  handleConfirmGameData: () => void;
+  handleConfigGame: (values: any) => void;
   handleCancelGame: () => void;
+  handleConfirmGame: () => void;
   handleNewGame: () => void;
-  handleUpdateGameData: () => void;
+  handleUpdateConfigGame: () => void;
   gameData: any;
-  creatingGame: boolean;
-  confirmingGame: boolean;
-  startGame: boolean;
+  gameStatus: string;
 };
 
 const GameContext = React.createContext({} as AuthContextValueType);
 
+export const GAME_STATUS = {
+  PENDING: "PENDING",
+  CONFIGURING: "CONFIGURING",
+  CONFIRMING: "CONFIRMING",
+  CONFIRMED: "CONFIRMED",
+  STARTED: "STARTED",
+};
+
 export const GameContextProvider = ({children}: any) => {
-  const [creatingGame, setCreatingGame] = useState(false);
-  const [confirmingGame, setConfirmingGame] = useState(false);
-  const [startGame, setStartGame] = useState(false);
+  const {
+    isOpen: alertIsOpen,
+    onOpen: alertOnOpen,
+    onClose: alertOnClose,
+  } = useDisclosure();
+
+  const [gameStatus, setGameStatus] = useState(GAME_STATUS.PENDING);
   const [gameData, setGameData] = useState(null);
 
-  function handleSaveGameData(values: any) {
-    setCreatingGame(false);
-    setConfirmingGame(true);
+  function handleConfigGame(values: any) {
+    setGameStatus(GAME_STATUS.CONFIRMING);
     setGameData(values);
   }
 
-  function handleConfirmGameData() {
-    setConfirmingGame(false);
-    setStartGame(true);
-  }
-
-  function handleUpdateGameData() {
-    setCreatingGame(true);
-    setConfirmingGame(false);
-  }
-
   function handleCancelGame() {
-    console.log("juego cancelado");
-  }
-  function handleNewGame() {
-    setCreatingGame(true);
+    setGameStatus(GAME_STATUS.PENDING);
+    setGameData(null);
+    alertOnClose();
   }
 
-  console.log(gameData);
+  const handleConfirmGame = () => setGameStatus(GAME_STATUS.CONFIRMED);
+  const handleUpdateConfigGame = () => setGameStatus(GAME_STATUS.CONFIGURING);
+  const handleNewGame = () => setGameStatus(GAME_STATUS.CONFIGURING);
+  const prevHandleCancelGame = () => alertOnOpen();
 
   return (
     <GameContext.Provider
       value={{
-        handleSaveGameData,
-        handleConfirmGameData,
-        handleCancelGame,
+        handleConfigGame,
+        handleCancelGame: prevHandleCancelGame,
+        handleConfirmGame,
         handleNewGame,
-        handleUpdateGameData,
+        handleUpdateConfigGame,
         gameData,
-        creatingGame,
-        confirmingGame,
-        startGame,
+        gameStatus,
       }}
     >
       {children}
+      <AlertDialog
+        isOpen={alertIsOpen}
+        onClose={alertOnClose}
+        onSuccess={handleCancelGame}
+      />
     </GameContext.Provider>
   );
 };

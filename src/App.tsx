@@ -1,12 +1,12 @@
 // Dependencies
-import { Button, HStack, VStack, Container } from "@chakra-ui/react";
-import { useContext } from "react";
+import {Button, HStack, VStack, Container} from "@chakra-ui/react";
+import {useContext} from "react";
 import ConfigGame from "./components/ConfigGame";
 import ConfirmGame from "./components/ConfirmGame";
 import InfoTable from "./components/InfoTable";
 import Layout from "./components/Layout";
 import ScoreTable from "./components/ScoreTable";
-import GameContext from "./context/GameContext";
+import GameContext, {GAME_STATUS} from "./context/GameContext";
 
 // [puntos, cogidas, ha acertado, ha vetado]
 
@@ -14,12 +14,12 @@ const data = [
   [
     "Nº",
     "P",
-    { label: "F", colSpan: 2, position: 1 },
-    { label: "P", colSpan: 2, position: 2 },
-    { label: "PO", colSpan: 2, position: 3 },
-    { label: "X", colSpan: 2, position: 4 },
-    { label: "B", colSpan: 2, position: 5 },
-    { label: "B", colSpan: 2, position: 6 },
+    {label: "F", colSpan: 2, position: 1},
+    {label: "P", colSpan: 2, position: 2},
+    {label: "PO", colSpan: 2, position: 3},
+    {label: "X", colSpan: 2, position: 4},
+    {label: "B", colSpan: 2, position: 5},
+    {label: "B", colSpan: 2, position: 6},
   ],
   [
     [
@@ -46,34 +46,28 @@ const data = [
 ];
 
 function App() {
-  const {
-    creatingGame,
-    confirmingGame,
-    startGame,
-    handleCancelGame,
-    handleNewGame,
-  } = useContext(GameContext);
+  const {gameStatus, handleCancelGame, handleNewGame} = useContext(GameContext);
   return (
     <Layout>
       <Container maxW="container.xxl">
         <VStack spacing={3} my={5}>
           <HStack width="100%" justifyContent="space-between">
-            {!creatingGame && !confirmingGame && !startGame ? (
-              <Button size="sm" onClick={handleNewGame}>
+            {gameStatus === GAME_STATUS.PENDING ? (
+              <Button size="sm" colorScheme="green" onClick={handleNewGame}>
                 Nueva partida
               </Button>
             ) : null}
-            {creatingGame || confirmingGame || startGame ? (
-              <Button size="sm" onClick={handleCancelGame}>
+            {gameStatus !== GAME_STATUS.PENDING ? (
+              <Button size="sm" colorScheme="red" onClick={handleCancelGame}>
                 Cancelar partida
               </Button>
             ) : null}
           </HStack>
-          {creatingGame ? <ConfigGame /> : null}
-          {confirmingGame ? <ConfirmGame /> : null}
+          {gameStatus === GAME_STATUS.CONFIGURING ? <ConfigGame /> : null}
+          {gameStatus === GAME_STATUS.CONFIRMING ? <ConfirmGame /> : null}
         </VStack>
-        <InfoTable data={data} />
-        <ScoreTable data={data} />
+        {/* <InfoTable data={data} />
+        <ScoreTable data={data} /> */}
       </Container>
     </Layout>
   );
