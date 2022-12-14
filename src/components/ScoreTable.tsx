@@ -5,8 +5,7 @@ import GameContext from "../context/GameContext";
 import TableCell from "./TableCell";
 
 function ScoreTable({data}: any) {
-  const {gameData, handleBackDependentPlayer, handleStartedGame} =
-    useContext(GameContext);
+  const {gameData} = useContext(GameContext);
 
   const headers = [
     "Nº",
