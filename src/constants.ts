@@ -1,10 +1,3 @@
-export const PLAYER_NUMBERS = [
-  {label: "3 jugadores (36 cartas)", value: 3},
-  {label: "4 jugadores (40 cartas)", value: 4},
-  {label: "5 jugadores (40 cartas)", value: 5},
-  {label: "6 jugadores (36 cartas(", value: 6},
-];
-
 export const PLAYERS_NAMES = [
   {name: "Fernando", nick: "F"},
   {name: "Pepe", nick: "P"},
@@ -16,6 +9,22 @@ export const PLAYERS_NAMES = [
   {name: "V. Paquita", nick: "VP"},
 ];
 
+export const PLAYERS: {
+  [key: string]: {
+    name: string;
+    nick: string;
+  };
+} = {
+  F: {name: "Fernando", nick: "F"},
+  P: {name: "Pepe", nick: "P"},
+  V: {name: "Victor", nick: "V"},
+  X: {name: "Chico", nick: "X"},
+  PO: {name: "Postura", nick: "PO"},
+  B: {name: "Bulli", nick: "B"},
+  C: {name: "Curro", nick: "C"},
+  VP: {name: "V. Paquita", nick: "VP"},
+};
+
 export const GAMES_PRICES = [
   {value: 0, label: "Precio normal"},
   {value: 1, label: "Precio +1"},
@@ -24,3 +33,30 @@ export const GAMES_PRICES = [
   {value: 4, label: "Precio x3"},
   {value: 5, label: "Precio x5"},
 ];
+
+export const GAME_STATUS = {
+  PENDING: "PENDING",
+  CONFIGURING: "CONFIGURING",
+  CONFIRMING: "CONFIRMING",
+  CONFIRMED: "CONFIRMED",
+  STARTED: "STARTED",
+};
+
+export const CARDS_QTY: any = {
+  3: 36,
+  4: 40,
+  5: 40,
+  6: 36,
+};
+
+export const HANDS_TYPES: any = {
+  LHD: {key: "LHD", label: "Grandes bajada"},
+  SHD: {key: "SHD", label: "Bajada"},
+  PH: {key: "PH", label: "Piñas"},
+  SHU: {key: "SHU", label: "Subida"},
+  LHU: {key: "LHU", label: "Grandes subida"},
+  LLH: {key: "LLH", label: "Sin palo"},
+  AUH: {key: "AUH", label: "Subasta"},
+};
+
+export const LIFES = ["Oros", "Copas", "Espadas", "Bastos"];

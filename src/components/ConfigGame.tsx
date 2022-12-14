@@ -1,8 +1,7 @@
 // Dependencies
-import { useContext, useMemo } from "react";
-import { useForm, Controller } from "react-hook-form";
+import {useContext, useMemo} from "react";
+import {useForm, Controller} from "react-hook-form";
 import {
-  Box,
   Text,
   VStack,
   Button,
@@ -16,11 +15,11 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import PlayersFormControl from "./PlayersFormControl";
 import SwitchForm from "./SwitchForm";
 import GameContext from "../context/GameContext";
-import { GAMES_PRICES } from "../constants";
+import {GAMES_PRICES} from "../constants";
 
 const schema = yup.object().shape({
   players: yup
@@ -33,7 +32,7 @@ const schema = yup.object().shape({
 });
 
 function ConfigGame() {
-  const { handleConfigGame, gameData } = useContext(GameContext);
+  const {handleConfigGame, gameData} = useContext(GameContext);
 
   const defaultValues = useMemo(() => {
     return {
@@ -65,90 +64,89 @@ function ConfigGame() {
   const errors: any = form?.formState?.errors;
 
   return (
-    <Box width="100%" borderColor="gray.400" borderWidth={0.5} py={5} px={5}>
-      <Text fontWeight="bold" pb={4}>
+    <VStack
+      width="100%"
+      alignItems="flex-start"
+      borderColor="gray.400"
+      borderWidth={0.5}
+      py={5}
+      px={5}
+      spacing={5}
+      borderRadius={10}
+    >
+      <Text fontSize="xl" fontWeight="bold">
         Configuración de la partida
       </Text>
-      <form>
-        <VStack alignItems="flex-start" spacing={5}>
-          <PlayersFormControl form={form} errors={errors} />
-          <Divider />
-          <SimpleGrid
-            w="100%"
-            columns={{
-              base: 3,
-              md: 4,
+      <VStack spacing={5} width="100%">
+        <PlayersFormControl form={form} errors={errors} />
+        <Divider />
+        <SimpleGrid
+          w="100%"
+          columns={{
+            base: 3,
+            md: 4,
+          }}
+          spacing={5}
+        >
+          <SwitchForm
+            control={form.control}
+            name="pineapple"
+            label="No piñas"
+          />
+          <SwitchForm control={form.control} name="lifeless" label="Sin palo" />
+          <SwitchForm control={form.control} name="auction" label="Subastas" />
+          <SwitchForm
+            control={form.control}
+            name="double_gold"
+            label="Doble oro"
+          />
+        </SimpleGrid>
+        <Divider />
+        <FormControl isRequired={true} isInvalid={errors?.type_pay}>
+          <FormLabel htmlFor="type_pay" fontSize="sm">
+            Tipo de pago
+          </FormLabel>
+          <Controller
+            name="type_pay"
+            control={form.control}
+            render={({field}) => {
+              return (
+                <Select
+                  size="sm"
+                  id="type_pay"
+                  placeholder="Seleccione una opción..."
+                  onChange={field.onChange}
+                  value={field.value}
+                >
+                  {GAMES_PRICES.map((item: any) => {
+                    return (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </Select>
+              );
             }}
-            spacing={5}
-          >
-            <SwitchForm
-              control={form.control}
-              name="pineapple"
-              label="No piñas"
-            />
-            <SwitchForm
-              control={form.control}
-              name="lifeless"
-              label="Sin palo"
-            />
-            <SwitchForm
-              control={form.control}
-              name="auction"
-              label="Subastas"
-            />
-            <SwitchForm
-              control={form.control}
-              name="double_gold"
-              label="Doble oro"
-            />
-          </SimpleGrid>
-          <Divider />
-          <FormControl isRequired={true} isInvalid={errors?.type_pay}>
-            <FormLabel htmlFor="type_pay" fontSize="sm">
-              Tipo de pago
-            </FormLabel>
-            <Controller
-              name="type_pay"
-              control={form.control}
-              render={({ field }) => {
-                return (
-                  <Select
-                    size="sm"
-                    id="type_pay"
-                    placeholder="Seleccione una opción..."
-                    onChange={field.onChange}
-                    value={field.value}
-                  >
-                    {GAMES_PRICES.map((item: any) => {
-                      return (
-                        <option key={item.value} value={item.value}>
-                          {item.label}
-                        </option>
-                      );
-                    })}
-                  </Select>
-                );
-              }}
-            />
+          />
 
-            <FormErrorMessage>
-              <FormErrorIcon />
-              {errors?.type_pay?.message}
-            </FormErrorMessage>
-          </FormControl>
-          <Divider />
-          <Flex width="100%" justifyContent="flex-end">
-            <Button
-              onClick={form.handleSubmit(onSubmit)}
-              size="sm"
-              colorScheme="green"
-            >
-              Siguiente
-            </Button>
-          </Flex>
-        </VStack>
-      </form>
-    </Box>
+          <FormErrorMessage>
+            <FormErrorIcon />
+            {errors?.type_pay?.message}
+          </FormErrorMessage>
+        </FormControl>
+        <Divider />
+        <Flex width="100%" justifyContent="flex-end">
+          <Button
+            onClick={form.handleSubmit(onSubmit)}
+            size="sm"
+            colorScheme="green"
+          >
+            Siguiente
+          </Button>
+        </Flex>
+      </VStack>
+    </VStack>
   );
 }
 

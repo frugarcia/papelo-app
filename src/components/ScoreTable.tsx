@@ -1,15 +1,38 @@
 // Dependencies
 import {Table, Thead, Tbody, Tr, Th, TableContainer} from "@chakra-ui/react";
-import {Fragment} from "react";
+import {Fragment, useContext} from "react";
+import GameContext from "../context/GameContext";
 import TableCell from "./TableCell";
 
 function ScoreTable({data}: any) {
+  const {gameData, handleBackDependentPlayer, handleStartedGame} =
+    useContext(GameContext);
+
+  const headers = [
+    "Nº",
+    "P",
+    ...gameData.players.map((o: any) => ({label: o.nick, colSpan: 2})),
+  ];
+
+  const body = gameData.schema.map((o: any) => {
+    return [
+      o.qty,
+      o.dependent.nick,
+      ...Array.from({length: gameData.players.length}, () => [
+        0,
+        0,
+        true,
+        false,
+      ]),
+    ];
+  });
+
   return (
     <TableContainer w="100%">
       <Table variant="simple" size="sm">
         <Thead>
           <Tr>
-            {data[0].map((item: any, index: number) => {
+            {headers.map((item: any, index: number) => {
               const label = typeof item === "string" ? item : item.label;
               const colSpan =
                 typeof item !== "string" ? item?.colSpan : undefined;
@@ -34,7 +57,7 @@ function ScoreTable({data}: any) {
           </Tr>
         </Thead>
         <Tbody>
-          {data[1].map((row: any, index: number) => {
+          {body.map((row: any, index: number) => {
             return (
               <Tr key={`row_${index}`}>
                 {row.map((item: any, index: number) => {

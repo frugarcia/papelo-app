@@ -2,6 +2,8 @@
 import {useDisclosure} from "@chakra-ui/react";
 import React, {useState} from "react";
 import AlertDialog from "../components/AlertDialog";
+import {GAME_STATUS, PLAYERS} from "../constants";
+import {getGameSchema} from "../lib/utils";
 
 type AuthContextValueType = {
   handleConfigGame: (values: any) => void;
@@ -9,19 +11,13 @@ type AuthContextValueType = {
   handleConfirmGame: () => void;
   handleNewGame: () => void;
   handleUpdateConfigGame: () => void;
+  handleBackDependentPlayer: () => void;
+  handleStartedGame: (dp: string) => void;
   gameData: any;
   gameStatus: string;
 };
 
 const GameContext = React.createContext({} as AuthContextValueType);
-
-export const GAME_STATUS = {
-  PENDING: "PENDING",
-  CONFIGURING: "CONFIGURING",
-  CONFIRMING: "CONFIRMING",
-  CONFIRMED: "CONFIRMED",
-  STARTED: "STARTED",
-};
 
 export const GameContextProvider = ({children}: any) => {
   const {
@@ -31,11 +27,14 @@ export const GameContextProvider = ({children}: any) => {
   } = useDisclosure();
 
   const [gameStatus, setGameStatus] = useState(GAME_STATUS.PENDING);
-  const [gameData, setGameData] = useState(null);
+  const [gameData, setGameData] = useState<any>(null);
 
   function handleConfigGame(values: any) {
     setGameStatus(GAME_STATUS.CONFIRMING);
-    setGameData(values);
+    setGameData({
+      ...values,
+      players: values?.players?.map((item: any) => PLAYERS[item.nick]),
+    });
   }
 
   function handleCancelGame() {
@@ -48,6 +47,21 @@ export const GameContextProvider = ({children}: any) => {
   const handleUpdateConfigGame = () => setGameStatus(GAME_STATUS.CONFIGURING);
   const handleNewGame = () => setGameStatus(GAME_STATUS.CONFIGURING);
   const prevHandleCancelGame = () => alertOnOpen();
+  const handleBackDependentPlayer = () => setGameStatus(GAME_STATUS.CONFIRMING);
+
+  const handleStartedGame = (startDependentPlayer: string) => {
+    setGameStatus(GAME_STATUS.STARTED);
+
+    const schema = getGameSchema({...gameData, startDependentPlayer});
+
+    console.log(gameData);
+
+    setGameData((gameData: any) => ({
+      startDependentPlayer,
+      schema,
+      ...gameData,
+    }));
+  };
 
   return (
     <GameContext.Provider
@@ -57,6 +71,8 @@ export const GameContextProvider = ({children}: any) => {
         handleConfirmGame,
         handleNewGame,
         handleUpdateConfigGame,
+        handleBackDependentPlayer,
+        handleStartedGame,
         gameData,
         gameStatus,
       }}

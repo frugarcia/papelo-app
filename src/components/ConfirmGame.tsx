@@ -1,27 +1,16 @@
 // Dependencies
-import { useContext, useMemo } from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  HStack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import {useContext, useMemo} from "react";
+import {Button, Divider, Flex, HStack, Text, VStack} from "@chakra-ui/react";
 import GameContext from "../context/GameContext";
-import { GAMES_PRICES } from "../constants";
+import {GAMES_PRICES, PLAYERS} from "../constants";
 import TagAvatar from "./TagAvatar";
-import { getPlayerByNick } from "../lib/utils";
 
 function ConfigGame() {
-  const { handleConfirmGame, handleUpdateConfigGame, gameData } =
+  const {handleConfirmGame, handleUpdateConfigGame, gameData} =
     useContext(GameContext);
 
   const playersList = useMemo(() => {
-    return (
-      gameData?.players?.map((item: any) => getPlayerByNick(item.nick)) || []
-    );
+    return gameData?.players?.map((item: any) => PLAYERS[item.nick]) || [];
   }, [gameData]);
 
   const gameTypeString = useMemo(() => {
@@ -39,8 +28,17 @@ function ConfigGame() {
   }, [gameData]);
 
   return (
-    <Box width="100%" borderColor="gray.400" borderWidth={0.5} py={5} px={5}>
-      <Text fontWeight="bold" pb={4}>
+    <VStack
+      width="100%"
+      alignItems="flex-start"
+      borderColor="gray.400"
+      borderWidth={0.5}
+      py={5}
+      px={5}
+      spacing={5}
+      borderRadius={10}
+    >
+      <Text fontSize="xl" fontWeight="bold">
         Confirmación de la partida
       </Text>
       <VStack alignItems="flex-start">
@@ -60,8 +58,8 @@ function ConfigGame() {
               return (
                 <TagAvatar
                   key={item.nick}
-                  mr={2}
-                  mt={2}
+                  mr={3}
+                  mt={4}
                   name={`${item.name} (${item.nick})`}
                 />
               );
@@ -80,11 +78,11 @@ function ConfigGame() {
         <Button onClick={handleUpdateConfigGame} size="sm" colorScheme="orange">
           Volver atrás
         </Button>
-        <Button onClick={handleConfirmGame} size="sm" colorScheme="blue">
+        <Button onClick={handleConfirmGame} size="sm" colorScheme="green">
           Siguiente
         </Button>
       </HStack>
-    </Box>
+    </VStack>
   );
 }
 
