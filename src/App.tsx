@@ -1,12 +1,13 @@
 // Dependencies
-import {Button, HStack, VStack, Container} from "@chakra-ui/react";
-import {useContext} from "react";
+import { Button, HStack, VStack, Container } from "@chakra-ui/react";
+import { useContext } from "react";
 import ConfigGame from "./components/ConfigGame";
 import ConfirmGame from "./components/ConfirmGame";
+import DependentPlayer from "./components/DependentPlayer";
 import InfoTable from "./components/InfoTable";
 import Layout from "./components/Layout";
 import ScoreTable from "./components/ScoreTable";
-import GameContext, {GAME_STATUS} from "./context/GameContext";
+import GameContext, { GAME_STATUS } from "./context/GameContext";
 
 // [puntos, cogidas, ha acertado, ha vetado]
 
@@ -14,12 +15,12 @@ const data = [
   [
     "Nº",
     "P",
-    {label: "F", colSpan: 2, position: 1},
-    {label: "P", colSpan: 2, position: 2},
-    {label: "PO", colSpan: 2, position: 3},
-    {label: "X", colSpan: 2, position: 4},
-    {label: "B", colSpan: 2, position: 5},
-    {label: "B", colSpan: 2, position: 6},
+    { label: "F", colSpan: 2, position: 1 },
+    { label: "P", colSpan: 2, position: 2 },
+    { label: "PO", colSpan: 2, position: 3 },
+    { label: "X", colSpan: 2, position: 4 },
+    { label: "B", colSpan: 2, position: 5 },
+    { label: "B", colSpan: 2, position: 6 },
   ],
   [
     [
@@ -46,7 +47,8 @@ const data = [
 ];
 
 function App() {
-  const {gameStatus, handleCancelGame, handleNewGame} = useContext(GameContext);
+  const { gameStatus, handleCancelGame, handleNewGame } =
+    useContext(GameContext);
   return (
     <Layout>
       <Container maxW="container.xxl">
@@ -65,6 +67,7 @@ function App() {
           </HStack>
           {gameStatus === GAME_STATUS.CONFIGURING ? <ConfigGame /> : null}
           {gameStatus === GAME_STATUS.CONFIRMING ? <ConfirmGame /> : null}
+          {gameStatus === GAME_STATUS.CONFIRMED ? <DependentPlayer /> : null}
         </VStack>
         {/* <InfoTable data={data} />
         <ScoreTable data={data} /> */}

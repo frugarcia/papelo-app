@@ -1,5 +1,5 @@
 // Dependencies
-import {Controller, useFieldArray} from "react-hook-form";
+import { Controller, useFieldArray } from "react-hook-form";
 import {
   FormControl,
   FormLabel,
@@ -13,7 +13,7 @@ import {
   FormErrorMessage,
   FormErrorIcon,
 } from "@chakra-ui/react";
-import {PLAYERS_NAMES} from "../constants";
+import { PLAYERS_NAMES } from "../constants";
 
 function PlayerFormControl({
   form,
@@ -22,7 +22,7 @@ function PlayerFormControl({
   value,
   idx,
 }: any) {
-  const {control} = form;
+  const { control } = form;
   return (
     <FormControl>
       <FormLabel htmlFor={`player_${idx}`} fontSize="sm">
@@ -59,16 +59,16 @@ function PlayerFormControl({
   );
 }
 
-function PlayersFormControl({form}: any) {
-  const {control} = form;
-  const {fields, append, update, remove} = useFieldArray({
+function PlayersFormControl({ form }: any) {
+  const { control } = form;
+  const { fields, append, update, remove } = useFieldArray({
     control,
     name: "players",
   });
 
   function handleChangePlayer(playerIndex: number, nick: string) {
     if (nick) {
-      update(playerIndex, {nick});
+      update(playerIndex, { nick });
     } else {
       remove(playerIndex);
     }
@@ -77,7 +77,7 @@ function PlayersFormControl({form}: any) {
   const availablePlayers: any[] = PLAYERS_NAMES.map((player) => {
     const usedNicks = fields.map((field: any) => field?.nick);
     const isUsedPlayer = usedNicks.includes(player.nick);
-    return {value: player.nick, label: player.name, disabled: isUsedPlayer};
+    return { value: player.nick, label: player.name, disabled: isUsedPlayer };
   });
 
   return (
@@ -127,7 +127,7 @@ function PlayersFormControl({form}: any) {
       </FormControl>
       <Button
         disabled={fields.length > 5}
-        colorScheme="green"
+        colorScheme="blue"
         size="sm"
         onClick={() => append(undefined)}
       >

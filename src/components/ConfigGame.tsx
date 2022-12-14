@@ -1,6 +1,6 @@
 // Dependencies
-import {useContext, useMemo} from "react";
-import {useForm, Controller} from "react-hook-form";
+import { useContext, useMemo } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   Box,
   Text,
@@ -13,13 +13,14 @@ import {
   Select,
   FormErrorMessage,
   FormErrorIcon,
+  Flex,
 } from "@chakra-ui/react";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import PlayersFormControl from "./PlayersFormControl";
 import SwitchForm from "./SwitchForm";
 import GameContext from "../context/GameContext";
-import {GAMES_PRICES} from "../constants";
+import { GAMES_PRICES } from "../constants";
 
 const schema = yup.object().shape({
   players: yup
@@ -32,7 +33,7 @@ const schema = yup.object().shape({
 });
 
 function ConfigGame() {
-  const {handleConfigGame, gameData} = useContext(GameContext);
+  const { handleConfigGame, gameData } = useContext(GameContext);
 
   const defaultValues = useMemo(() => {
     return {
@@ -109,7 +110,7 @@ function ConfigGame() {
             <Controller
               name="type_pay"
               control={form.control}
-              render={({field}) => {
+              render={({ field }) => {
                 return (
                   <Select
                     size="sm"
@@ -136,13 +137,15 @@ function ConfigGame() {
             </FormErrorMessage>
           </FormControl>
           <Divider />
-          <Button
-            onClick={form.handleSubmit(onSubmit)}
-            size="sm"
-            colorScheme="blue"
-          >
-            Crear partida
-          </Button>
+          <Flex width="100%" justifyContent="flex-end">
+            <Button
+              onClick={form.handleSubmit(onSubmit)}
+              size="sm"
+              colorScheme="green"
+            >
+              Siguiente
+            </Button>
+          </Flex>
         </VStack>
       </form>
     </Box>
